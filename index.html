@@ -190,19 +190,18 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/12/15/hello-world/" target="_self">
-          Hello World
+        <a href="/2021/12/15/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" target="_self">
+          动态代理
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/12/15/hello-world/" target="_self">
+        <a href="/2021/12/15/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" target="_self">
           
           
             
           
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick
+          1.代理模式代理模式是指，为其他对象提供一种代理可以控制这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户类和目标对象之间起到中介的作用。另外一个意思是，使用代理对象，是为了在不修改目标对象的基础上，==增强主业务逻辑==。客户类真正想访问的对象是目标对象，但客户类真正可以访问的对象是代理对象。客户类对目标对象的访问是通过访问代理对象来实现的。当然，代理类
         </a>
       </p>
 
@@ -210,11 +209,18 @@ Quick
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-12-15 00:43" pubdate>
+            <time datetime="2021-12-15 13:02" pubdate>
               2021-12-15
             </time>
           </div>
         
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/java/">java</a>
+            
+          </div>
         
         
       </div>
@@ -324,7 +330,34 @@ Quick
       var typing = Fluid.plugins.typing;
       var title = document.getElementById('subtitle').title;
       
-      typing(title)
+      jQuery.ajax({
+        type: 'GET',
+        url: 'https://v1.hitokoto.cn/',
+        headers: {},
+        dataType: 'json',
+        success: function (result) {
+          var text;
+          if (result) {
+            var keys = 'hitokoto'.split('.')
+            if (result instanceof Array) {
+              result = result[0]
+            }
+            for (const k of keys) {
+              var value = result[k]
+              if (typeof value === 'string') {
+                text = value
+                break
+              } else if (value instanceof Object) {
+                result = value
+              }
+            }
+          }
+          text ? typing(text) : typing(title);
+        },
+        error: function () {
+          typing(title)
+        }
+      })
       
     })(window, document);
   </script>
